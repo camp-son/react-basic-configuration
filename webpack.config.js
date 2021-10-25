@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     mode: 'development',
@@ -46,9 +47,16 @@ module.exports = {
     },
     // 번들링 된 파일에 대한 플러그인을 설정합니다.
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),
-        new CleanWebpackPlugin()
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+            reportFilename: 'bundle-analyzer.html',
+            openAnalyzer: false,
+            generateStatsFile: true,
+            statsFilename: 'analyzer-stats.json'
+        })
     ]
 };
